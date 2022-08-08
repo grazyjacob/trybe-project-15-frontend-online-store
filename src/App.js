@@ -6,7 +6,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        a
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={ ProductList } />
