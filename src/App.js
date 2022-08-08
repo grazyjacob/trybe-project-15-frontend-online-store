@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ProductList from './pages/ProductList';
 
-class ProductList extends Component {
+class App extends Component {
   render() {
     return (
       <div>
@@ -16,4 +16,4 @@ class ProductList extends Component {
   }
 }
 
-export default ProductList;
+export default App;
