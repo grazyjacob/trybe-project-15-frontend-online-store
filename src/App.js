@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import './App.css';
-import { getCategories } from './services/api';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Search from './pages/Search';
 
 class App extends Component {
   render() {
-    getCategories();
-    console.log(getCategories());
     return (
       <div>
-        <p> alo</p>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={ Search } />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
