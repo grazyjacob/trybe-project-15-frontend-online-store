@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Search from './pages/Search';
+import ProductList from './pages/ProductList';
 
 class App extends Component {
   render() {
@@ -9,7 +9,7 @@ class App extends Component {
         a
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={ Search } />
+            <Route exact path="/" component={ ProductList } />
           </Switch>
         </BrowserRouter>
       </div>
