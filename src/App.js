@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Search from './pages/Search';
+import ProductList from './pages/ProductList';
 
-class App extends Component {
+class ProductList extends Component {
   render() {
     return (
       <div>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={ Search } />
+            <Route exact path="/" component={ ProductList } />
           </Switch>
         </BrowserRouter>
       </div>
@@ -16,4 +16,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default ProductList;
