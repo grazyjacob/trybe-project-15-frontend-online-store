@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories } from '../services/api';
 
 class ProductList extends Component {
@@ -23,6 +24,13 @@ class ProductList extends Component {
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
+        <Link
+          to="./carrinho"
+          data-testid="shopping-cart-button"
+        >
+          Carrinho
+
+        </Link>
         <div>
           <h1>Lista de Categorias</h1>
           { categories.map((category) => (
