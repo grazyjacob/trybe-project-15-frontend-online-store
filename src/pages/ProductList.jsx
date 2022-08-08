@@ -28,7 +28,7 @@ class ProductList extends Component {
           { categories.map((category) => (
             <li key={ category.name }>
               <button type="submit" data-testid="category">
-                <strong> Categoria </strong>
+                <strong> Categoria: </strong>
                 { category.name }
               </button>
             </li>
