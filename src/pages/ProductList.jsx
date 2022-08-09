@@ -11,11 +11,11 @@ class ProductList extends Component {
     apiResponse: [],
     loading: true,
     emptySearch: '',
+    productCart: [],
   }
 
   componentDidMount = async () => {
     const response = await getCategories();
-
     this.setState({ categories: response });
   }
 
@@ -28,7 +28,6 @@ class ProductList extends Component {
       loading: isEmpty,
       emptySearch: 'Nenhum produto foi encontrado',
     });
-    console.log(resultAPI);
   }
 
   onClickCategory = (categoryId) => {
@@ -44,8 +43,20 @@ class ProductList extends Component {
     });
   }
 
+  addToCart = ({ price, title, thumbnail, id }) => {
+    const { productCart } = this.state;
+    const cart = productCart;
+    localStorage.setItem('productCart', JSON
+      .stringify([...cart, { price, title, thumbnail, id }]));
+    this.setState({ productCart: [...cart, { price, title, thumbnail, id }] });
+  }
+
   render() {
-    const { categories, product, apiResponse, loading, emptySearch } = this.state;
+    const { categories,
+      product,
+      apiResponse,
+      loading,
+      emptySearch } = this.state;
     const { results } = apiResponse;
     return (
       <div>
@@ -90,13 +101,20 @@ class ProductList extends Component {
           </div>
           <main className="card-section">
             { loading ? <p>{emptySearch}</p>
-              : results.map(({ price, title, thumbnail }, index) => (
+              : results.map(({ price, title, thumbnail, id }, index) => (
                 <div key={ index }>
                   <ProductCard
                     productName={ title }
                     productImg={ thumbnail }
                     productPrice={ price }
                   />
+                  <button
+                    type="button"
+                    data-testid="product-add-to-cart"
+                    onClick={ () => this.addToCart({ price, title, thumbnail, id }) }
+                  >
+                    Adicionar ao carrinho
+                  </button>
                 </div>
               ))}
           </main>
