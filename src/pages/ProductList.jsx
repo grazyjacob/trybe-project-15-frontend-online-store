@@ -10,6 +10,7 @@ class ProductList extends Component {
     product: '',
     apiResponse: [],
     loading: true,
+    emptySearch: '',
   }
 
   componentDidMount = async () => {
@@ -22,9 +23,11 @@ class ProductList extends Component {
     event.preventDefault();
     const { categorieId, product } = this.state;
     const resultAPI = await getProductsFromCategoryAndQuery(categorieId, product);
+    const isEmpty = resultAPI.results.length === 0;
     this.setState({
       apiResponse: resultAPI,
-      loading: false,
+      loading: isEmpty,
+      emptySearch: 'Nenhum produto foi encontrado',
     });
     console.log(resultAPI);
   }
@@ -37,7 +40,7 @@ class ProductList extends Component {
   }
 
   render() {
-    const { categories, product, apiResponse, loading } = this.state;
+    const { categories, product, apiResponse, loading, emptySearch } = this.state;
     const { results } = apiResponse;
     return (
       <div>
@@ -64,29 +67,31 @@ class ProductList extends Component {
         >
           Carrinho
         </Link>
-        <div>
-          <h1>Lista de Categorias</h1>
-          { categories.map((category) => (
-            <li key={ category.name }>
-              <button type="submit" data-testid="category">
-                <strong> Categoria: </strong>
-                { category.name }
-              </button>
-            </li>
-          ))}
-        </div>
-        <main className="card-section">
-          { loading ? 'Nenhum produto foi encontrado'
-            : results.map(({ price, title, thumbnail }, index) => (
-              <div key={ index }>
-                <ProductCard
-                  productName={ title }
-                  productImg={ thumbnail }
-                  productPrice={ price }
-                />
-              </div>
+        <div className="search-page">
+          <div>
+            <h1>Lista de Categorias</h1>
+            { categories.map((category) => (
+              <li key={ category.name }>
+                <button type="submit" data-testid="category">
+                  <strong> Categoria: </strong>
+                  { category.name }
+                </button>
+              </li>
             ))}
-        </main>
+          </div>
+          <main className="card-section">
+            { loading ? <p>{emptySearch}</p>
+              : results.map(({ price, title, thumbnail }, index) => (
+                <div key={ index }>
+                  <ProductCard
+                    productName={ title }
+                    productImg={ thumbnail }
+                    productPrice={ price }
+                  />
+                </div>
+              ))}
+          </main>
+        </div>
       </div>
     );
   }

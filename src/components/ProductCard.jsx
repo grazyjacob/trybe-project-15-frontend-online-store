@@ -7,7 +7,7 @@ class ProductCard extends Component {
     return (
       <div data-testid="product" className="card-wrapper">
         <span>{productName}</span>
-        <img src={ `${productImg}` } alt={ productName } />
+        <img src={ `${productImg}` } alt={ productName } className="img-card" />
         <span>{`Preço: R$ ${productPrice}`}</span>
       </div>
     );
