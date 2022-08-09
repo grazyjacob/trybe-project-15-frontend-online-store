@@ -10,7 +10,6 @@ class ProductList extends Component {
     product: '',
     apiResponse: [],
     loading: true,
-    emptySearch: '',
     productCart: [],
   }
 
@@ -26,7 +25,6 @@ class ProductList extends Component {
     this.setState({
       apiResponse: resultAPI,
       loading: isEmpty,
-      emptySearch: 'Nenhum produto foi encontrado',
     });
   }
 
@@ -55,8 +53,7 @@ class ProductList extends Component {
     const { categories,
       product,
       apiResponse,
-      loading,
-      emptySearch } = this.state;
+      loading } = this.state;
     const { results } = apiResponse;
     return (
       <div>
@@ -100,7 +97,7 @@ class ProductList extends Component {
             ))}
           </div>
           <main className="card-section">
-            { loading ? <p>{emptySearch}</p>
+            { loading ? <p>Nenhum produto foi encontrado</p>
               : results.map(({ price, title, thumbnail, id }, index) => (
                 <div key={ index }>
                   <ProductCard

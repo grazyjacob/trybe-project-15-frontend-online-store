@@ -16,18 +16,22 @@ export default class Carrinho extends Component {
 
   render() {
     const { productCart } = this.state;
-    const listProduct = productCart.map((product) => (
-      <div key={ product.id }>
-        <p data-testid="shopping-cart-product-name">
-          {product.title}
-        </p>
-        <p>{product.price}</p>
-        <p data-testid="shopping-cart-product-quantity">1</p>
-      </div>));
     return (
       <section>
-        <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
-        <div>{listProduct}</div>
+        {productCart === null ? (
+          <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>)
+          : (
+            <div>
+              { productCart.map((product) => (
+                <div key={ product.id }>
+                  <p data-testid="shopping-cart-product-name">
+                    {product.title}
+                  </p>
+                  <p>{product.price}</p>
+                  <p data-testid="shopping-cart-product-quantity">1</p>
+                </div>))}
+            </div>)}
+
       </section>
     );
   }
