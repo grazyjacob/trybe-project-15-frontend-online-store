@@ -19,8 +19,7 @@ class ProductList extends Component {
     this.setState({ categories: response });
   }
 
-  onSearchClick = async (event) => {
-    event.preventDefault();
+  onSearchClick = async () => {
     const { categorieId, product } = this.state;
     const resultAPI = await getProductsFromCategoryAndQuery(categorieId, product);
     const isEmpty = resultAPI.results.length === 0;
@@ -30,6 +29,12 @@ class ProductList extends Component {
       emptySearch: 'Nenhum produto foi encontrado',
     });
     console.log(resultAPI);
+  }
+
+  onClickCategory = (categoryId) => {
+    this.setState({
+      categorieId: categoryId,
+    }, () => this.onSearchClick());
   }
 
   handleChange = ({ target }) => {
@@ -72,7 +77,11 @@ class ProductList extends Component {
             <h1>Lista de Categorias</h1>
             { categories.map((category) => (
               <li key={ category.name }>
-                <button type="submit" data-testid="category">
+                <button
+                  type="button"
+                  data-testid="category"
+                  onClick={ () => this.onClickCategory(category.id) }
+                >
                   <strong> Categoria: </strong>
                   { category.name }
                 </button>
