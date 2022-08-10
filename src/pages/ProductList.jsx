@@ -10,7 +10,7 @@ class ProductList extends Component {
     product: '',
     apiResponse: [],
     loading: true,
-    productCart: [],
+    // productCart: [],
   }
 
   componentDidMount = async () => {
@@ -42,12 +42,16 @@ class ProductList extends Component {
   }
 
   addToCart = (result) => {
-    const { price, title, thumbnail, id } = result;
-    const { productCart } = this.state;
-    const cart = productCart;
-    localStorage.setItem('productCart', JSON
-      .stringify([...cart, { price, title, thumbnail, id }]));
-    this.setState({ productCart: [...cart, { price, title, thumbnail, id }] });
+    const cart = JSON.parse(localStorage.getItem('productCart'));
+    result.quantity = 1;
+    console.log(result);
+    if (cart) {
+      localStorage
+        .setItem('productCart', JSON.stringify([...cart, result]));
+    } else {
+      localStorage
+        .setItem('productCart', JSON.stringify([result]));
+    }
   }
 
   render() {
