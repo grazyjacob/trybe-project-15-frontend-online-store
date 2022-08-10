@@ -23,7 +23,7 @@ export default class Carrinho extends Component {
           : (
             <div>
               { productCart.map((product) => (
-                <div key={ product.id }>
+                <div key={ product.id } className="card-wrapper">
                   <p data-testid="shopping-cart-product-name">
                     {product.title}
                   </p>

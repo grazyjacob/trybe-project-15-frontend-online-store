@@ -41,7 +41,8 @@ class ProductList extends Component {
     });
   }
 
-  addToCart = ({ price, title, thumbnail, id }) => {
+  addToCart = (result) => {
+    const { price, title, thumbnail, id } = result;
     const { productCart } = this.state;
     const cart = productCart;
     localStorage.setItem('productCart', JSON
@@ -98,17 +99,33 @@ class ProductList extends Component {
           </div>
           <main className="card-section">
             { loading ? <p>Nenhum produto foi encontrado</p>
-              : results.map(({ price, title, thumbnail, id }, index) => (
-                <div key={ index }>
+              : results.map((result, index) => (
+                <div
+                  key={ index }
+                  data-testid="product"
+                >
                   <ProductCard
-                    productName={ title }
-                    productImg={ thumbnail }
-                    productPrice={ price }
+                    productName={ result.title }
+                    productImg={ result.thumbnail }
+                    productPrice={ parseInt(result.price, 10) }
                   />
+                  <Link
+                    data-testid="product-detail-link"
+                    to={ {
+                      pathname: `/product-details/?
+                      &productId=${result.id}
+                      &title=${result.title}
+                      &img=${result.thumbnail}
+                      &price=${result.price}`,
+                      state: result,
+                    } }
+                  >
+                    Mais detalhes
+                  </Link>
                   <button
                     type="button"
                     data-testid="product-add-to-cart"
-                    onClick={ () => this.addToCart({ price, title, thumbnail, id }) }
+                    onClick={ () => this.addToCart(result) }
                   >
                     Adicionar ao carrinho
                   </button>
