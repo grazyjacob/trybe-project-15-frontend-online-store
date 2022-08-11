@@ -9,6 +9,11 @@ export default class Carrinho extends Component {
     this.getLocalStorage();
   }
 
+  componentWillUnmount() {
+    const { productCart } = this.state;
+    localStorage.setItem('productCart', JSON.stringify(productCart));
+  }
+
   getLocalStorage = () => {
     const getSave = JSON.parse(localStorage.getItem('productCart'));
     this.setState({ productCart: getSave });
@@ -24,9 +29,15 @@ export default class Carrinho extends Component {
     } else {
       qtde = qtde === 1 ? qtde : qtde - 1;
     }
-    const produto = cart.filter((prod) => prod.id === product.id);
-    produto[0].quantity = qtde;
-    const carrinho = [...(cart.filter((prod) => prod.id !== product.id)), produto[0]];
+    const carrinho = cart.map((prod) => {
+      if (prod.id === product.id) {
+        prod.quantity = qtde;
+      }
+      return prod;
+    });
+    // const produto = cart.find((prod) => prod.id === product.id);
+    // produto.quantity = qtde;
+    // const carrinho = [...(cart.filter((prod) => prod.id !== product.id)), produto];
     this.setState({
       productCart: carrinho,
     });
