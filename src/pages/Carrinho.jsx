@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Carrinho extends Component {
   state = {
@@ -54,7 +55,6 @@ export default class Carrinho extends Component {
 
   render() {
     const { productCart } = this.state;
-    console.log(productCart);
     return (
       <section>
         {productCart === null ? (
@@ -98,6 +98,11 @@ export default class Carrinho extends Component {
                     </button>
                   </div>
                 </div>))}
+              <Link
+                to="/checkout"
+              >
+                <button data-testid="checkout-products" type="button">Checkout</button>
+              </Link>
             </div>)}
 
       </section>

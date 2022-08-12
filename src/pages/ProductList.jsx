@@ -10,12 +10,18 @@ class ProductList extends Component {
     product: '',
     apiResponse: [],
     loading: true,
+    cartQuantity: 0,
     // productCart: [],
   }
 
   componentDidMount = async () => {
     const response = await getCategories();
-    this.setState({ categories: response });
+    const cart = JSON.parse(localStorage.getItem('productCart'));
+    let carrinhoQtde = 0;
+    if (cart) {
+      carrinhoQtde = cart.length;
+    }
+    this.setState({ categories: response, cartQuantity: carrinhoQtde });
   }
 
   onSearchClick = async () => {
@@ -44,7 +50,6 @@ class ProductList extends Component {
   addToCart = (result) => {
     const cart = JSON.parse(localStorage.getItem('productCart'));
     result.quantity = 1;
-    console.log(result);
     if (cart) {
       localStorage
         .setItem('productCart', JSON.stringify([...cart, result]));
@@ -52,13 +57,17 @@ class ProductList extends Component {
       localStorage
         .setItem('productCart', JSON.stringify([result]));
     }
+    this.setState((prevState) => ({
+      cartQuantity: prevState.cartQuantity + 1,
+    }));
   }
 
   render() {
     const { categories,
       product,
       apiResponse,
-      loading } = this.state;
+      loading,
+      cartQuantity } = this.state;
     const { results } = apiResponse;
     return (
       <div>
@@ -83,7 +92,16 @@ class ProductList extends Component {
           to="./carrinho"
           data-testid="shopping-cart-button"
         >
-          Carrinho
+          {/* Carrinho */}
+          <div className="carrinho">
+            <img src="/images/126510.png" alt="carrinho" width="50px" />
+            <figcaption
+              data-testid="shopping-cart-size"
+            >
+              { cartQuantity }
+
+            </figcaption>
+          </div>
         </Link>
         <div className="search-page">
           <div>

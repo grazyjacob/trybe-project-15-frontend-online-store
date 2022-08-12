@@ -50,3 +50,17 @@ code {
   width: 150px;
   height: 150px;
 }
+
+.carrinho {
+  display: inline-block;
+  position: relative;
+}
+
+.carrinho figcaption {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  /* font-size: 40px;
+  color: black;
+  text-shadow: 0px 0px 5px black; */
+}
