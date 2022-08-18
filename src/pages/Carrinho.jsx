@@ -36,9 +36,6 @@ export default class Carrinho extends Component {
       }
       return prod;
     });
-    // const produto = cart.find((prod) => prod.id === product.id);
-    // produto.quantity = qtde;
-    // const carrinho = [...(cart.filter((prod) => prod.id !== product.id)), produto];
     this.setState({
       productCart: carrinho,
     });
