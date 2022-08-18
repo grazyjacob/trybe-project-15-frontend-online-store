@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import { PRODUCT_CART } from '../services/constants';
 
 class ProductList extends Component {
   state = {
@@ -16,7 +17,7 @@ class ProductList extends Component {
 
   componentDidMount = async () => {
     const response = await getCategories();
-    const cart = JSON.parse(localStorage.getItem('productCart'));
+    const cart = JSON.parse(localStorage.getItem(PRODUCT_CART));
     let carrinhoQtde = 0;
     if (cart) {
       carrinhoQtde = cart.length;
@@ -28,6 +29,7 @@ class ProductList extends Component {
     const { categorieId, product } = this.state;
     const resultAPI = await getProductsFromCategoryAndQuery(categorieId, product);
     const isEmpty = resultAPI.results.length === 0;
+    if (!isEmpty) localStorage.setItem('resultAPI', JSON.stringify(resultAPI));
     this.setState({
       apiResponse: resultAPI,
       loading: isEmpty,
@@ -48,14 +50,14 @@ class ProductList extends Component {
   }
 
   addToCart = (result) => {
-    const cart = JSON.parse(localStorage.getItem('productCart'));
+    const cart = JSON.parse(localStorage.getItem(PRODUCT_CART));
     result.quantity = 1;
     if (cart) {
       localStorage
-        .setItem('productCart', JSON.stringify([...cart, result]));
+        .setItem(PRODUCT_CART, JSON.stringify([...cart, result]));
     } else {
       localStorage
-        .setItem('productCart', JSON.stringify([result]));
+        .setItem(PRODUCT_CART, JSON.stringify([result]));
     }
     this.setState((prevState) => ({
       cartQuantity: prevState.cartQuantity + 1,
@@ -133,14 +135,7 @@ class ProductList extends Component {
                   />
                   <Link
                     data-testid="product-detail-link"
-                    to={ {
-                      pathname: `/product-details/?
-                      &productId=${result.id}
-                      &title=${result.title}
-                      &img=${result.thumbnail}
-                      &price=${result.price}`,
-                      state: result,
-                    } }
+                    to={ `/product-details/${result.id}` }
                   >
                     Mais detalhes
                   </Link>
